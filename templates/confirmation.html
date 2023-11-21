@@ -10,8 +10,12 @@
                         <i class="tf-ion-android-checkmark-circle"></i>
                         <h2 class="text-center">感謝您的購買!</h2>
                         <p>一收到您的款項後我們將會以最快的速度處理訂單</p>
-                        {% if user_order.pay_type == '信用卡' %}
-                            <a href="/payment/{{ user_order.id }}/" class="btn btn-main mt-20">前往paypal確認明細後付款</a>
+                        {% if user_order.pay_type == 'paypal' %}
+                            <a href="/payment/{{ user_order.id }}/"
+                               class="btn btn-main mt-20">前往paypal確認明細後付款</a>
+                        {% elif user_order.pay_type == 'ecpay'%}
+                            <a href="/ecpay/"
+                               class="btn btn-main mt-20">前往綠界確認明細後付款</a>
                         {% else %}
                             <a href="/order" class="btn btn-main mt-20">查看訂單明細</a>
                         {% endif %}

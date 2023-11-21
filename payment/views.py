@@ -7,6 +7,7 @@ from work import settings
 from paypal.standard.forms import PayPalPaymentsForm
 
 
+
 # Create your views here.
 
 @csrf_exempt
@@ -14,6 +15,7 @@ def payment_done(request):
     orderid = request.session['orderid']
     order = Order.objects.get(id=orderid)
     order.paid = True
+    order.save()
     return render(request, 'payment_done.html')
 
 
@@ -55,3 +57,5 @@ def payment(request, orderid):
 
     except:
         return redirect('/order')
+
+

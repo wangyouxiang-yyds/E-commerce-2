@@ -42,27 +42,30 @@
 
                                 <div class="form-group">
                                     <label for="full_name">全名</label>
-                                    <input type="text" class="form-control" id="full_name" placeholder="" name="name">
+                                    <input type="text" class="form-control" id="full_name" placeholder="" name="name"
+                                           required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="user_address">住址</label>
                                     <input type="text" class="form-control" id="user_address" placeholder=""
-                                           name="address">
+                                           name="address" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="user_phone">電話</label>
-                                    <input type="text" class="form-control" id="user_phone" placeholder="" name="phone">
+                                    <input type="text" class="form-control" id="user_phone" placeholder="" name="phone"
+                                           required>
                                 </div>
                                 <div class="checkout-country-code clearfix">
                                     <div class="form-group">
                                         <label for="user_post_code">區碼</label>
                                         <input type="text" class="form-control" id="user_post_code" name="zipcode"
-                                               value="">
+                                               value="" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="user_city">城市</label>
-                                        <input type="text" class="form-control" id="user_city" name="city" value="">
+                                        <input type="text" class="form-control" id="user_city" name="city" value=""
+                                               required>
                                     </div>
                                 </div>
 
@@ -93,7 +96,12 @@
                                                 <input id="card-cvc" class="form-control" type="tel" maxlength="4"
                                                        placeholder="CVC">
                                             </div>
-                                            <input type="hidden" name="paytype" value="信用卡">
+                                            <td>
+                                                <input type="radio" name="paytype" value="ecpay"/>綠界支付
+                                                <br>
+                                                <input type="radio" name="paytype" value="paypal" checked/>PayPal
+                                            </td>
+                                            <br>
                                             <button type="submit" class="btn btn-main mt-20">下訂單</button>
 
                                         </div>

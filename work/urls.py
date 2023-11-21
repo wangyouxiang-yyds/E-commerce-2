@@ -21,13 +21,14 @@ from django.conf import settings
 from django_shop.views import homepage
 from member.views import singnin, login, logout, forget_password, show_profile, edit_profile
 from blog.views import BlogView, blog_single
-from shop.views import addtocart, cart, shop_view, shop_detail_view, cartorder,\
-                        checkoutView, order, order_detail
+from shop.views import addtocart, cart, shop_view, shop_detail_view, cartorder, \
+    checkoutView, order, order_detail, ECPayCredit
 
 from contact.views import contactView
 from payment.views import payment, payment_done, payment_canceled
 from faq.views import FAQ_View
 from article_crawler.views import newView
+
 urlpatterns = [
                   path('', homepage),
                   path('index/', homepage),
@@ -56,7 +57,8 @@ urlpatterns = [
                   path('done/', payment_done),
                   path('canceled/', payment_canceled),
                   path('faq/', FAQ_View),
-path('blog-crawler/', newView),
+                  path('blog-crawler/', newView),
+                  path('ecpay/', ECPayCredit),
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
