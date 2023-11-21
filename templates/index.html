@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block homepage %}
+
+
+    <div class="hero-slider">
+        {% for item in banner %}
+
+
+
+        <div class="slider-item th-fullpage hero-area"
+     style="background-image: url({{ item.banner.url }});">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 text-center">
+                        {#                    <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">PRODUCTS</p>#}
+                        {#                    <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">The beauty of nature <br>#}
+                        {#                        is hidden in details.</h1>#}
+                        <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn"
+                           href="/shop-sidebar">前往購物</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <section class="product-category section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title text-center">
+                        <h2>商品分類</h2>
+                    </div>
+                </div>
+                {% for item in category %}
+
+                    <div class="col-md-6">
+                        <div class="category-box">
+                            <a href="{% url 'shop_sidebar' selected_category=item.id%}">
+                                <img src="{{ item.category_photo.url }}" alt=""/>
+                                <div class="content">
+                                    <h2 style="color: #eea236;"><strong>{{ item.category_name }}</strong></h2>
+{#                                    <p>Shop New Season Clothing</p>#}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="products section bg-gray">
+        <div class="container">
+            <div class="row">
+                <div class="title text-center">
+                    <h2>隨機產品</h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for item in product_item %}
+                <div class="col-md-4">
+                    <div class="product-item">
+                        <div class="product-thumb">
+                            {% if item.is_onsale %}
+                                            <span class="bage">特價</span>
+                                        {% endif %}
+                            <img class="img-responsive" src="{{ item.productphoto_set.first.product_photo.url }}" alt="product-img"/>
+                            <div class="preview-meta">
+                                <ul>
+                                    <li>
+									<span data-toggle="modal" data-target="#product-modal-{{ item.id }}">
+										<i class="tf-ion-ios-search-strong"></i>
+									</span>
+                                    </li>
+{#                                    <li>#}
+{#                                        <a href="#!"><i class="tf-ion-ios-heart"></i></a>#}
+{#                                    </li>#}
+                                    <li>
+                                        <a href="/addtocart/add/{{ item.id }}"><i class="tf-ion-android-cart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h4><a href="{% url 'shop_detail_view' item.id %}">{{ item.name }}</a></h4>
+                            <p class="price">${{ item.price }}</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Modal -->
+                <div class="modal product-modal fade" id="product-modal-{{ item.id }}">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="tf-ion-close"></i>
+                    </button>
+                    <div class="modal-dialog " role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-8 col-sm-6 col-xs-12">
+                                        <div class="modal-image">
+                                            <img class="img-responsive" src="{{ item.productphoto_set.first.product_photo.url }}"
+                                                 alt="product-img"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="product-short-details">
+                                            <h2 class="product-title">{{ item.name }}</h2>
+                                            <p class="product-price">${{ item.price }}</p>
+                                            <p class="product-short-description">
+                                                {{ item.small_description }}
+                                            </p>
+                                             <a href="/addtocart/add/{{ item.id }}" class="btn btn-main">加入購物車</a>
+                                            <a href="{% url 'shop_detail_view' item.id %}"
+                                                           class="btn btn-transparent">查看商品資訊</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.modal -->
+            {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

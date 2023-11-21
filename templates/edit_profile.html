@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainarea %}
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content">
+                        <h1 class="page-name">會員中心</h1>
+                        <ol class="breadcrumb">
+                            <li><a href="/index">首頁</a></li>
+                            <li class="active">個人資料</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="user-dashboard page-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <ul class="list-inline dashboard-menu text-center">
+                        <li><a href="/order">訂單資訊</a></li>
+                        <li><a class="active" href="/profile-details">個人資料</a></li>
+                    </ul>
+
+                    <div class="dashboard-wrapper dashboard-user-profile">
+                        <div class="media">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <div class="pull-left text-center">
+                                    <img class="media-object user-img" src="
+                                            {% if member_img %}{{ member_img.url }}{% else %}{% endif %}"
+                                         alt="Image">
+
+                                    {#                                    <label for="file-input" class="btn btn-transparent mt-20">更改圖片</label>#}
+
+                                    <input id="file-input" type="file" name="user_img">
+                                </div>
+                                <div class="media-body">
+
+                                    {% csrf_token %}
+                                    <ul class="user-profile-list">
+                                        <li>
+                                            <span>名稱:</span>
+                                            <input type="text" name="member_name" value="{{ member_name }}">
+                                        </li>
+                                        <li>
+                                            <span>電子信箱:</span>
+                                            {{ member_email }}
+                                        </li>
+                                        <li>
+                                            <span>密碼:</span>
+                                            <input type="password" name="member_password" value="{{ member_password }}">
+                                        </li>
+                                        <li>
+                                            <span>電話:</span>
+                                            <input type="text" name="member_phone" value="{{ member_phone }}">
+                                        </li>
+                                        <li>
+                                            <span>生日:</span>
+                                            <input type="text" name="member_birthday"
+                                                   value="{{ member_birthday|date:'Y-m-d' }}">
+                                        </li>
+                                        <li>
+                                            <span>住址:</span>
+                                            <input type="text" name="member_address" value="{{ member_address }}">
+                                        </li>
+                                        <li>
+                                            <span>加入會員日期:</span>
+                                            {{ member_create_date }}
+                                        </li>
+                                    </ul>
+
+
+                                </div>
+                                <input type="submit" class="btn btn-transparent mt-20" value="保存更改">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

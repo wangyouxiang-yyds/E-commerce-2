@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block js %}{% endblock %}
+{% block mainarea %}
+
+
+    <section class="single-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <ol class="breadcrumb">
+                        <li><a href="/index">首頁</a></li>
+                        <li><a href="/shop-sidebar">商店</a></li>
+                        <li class="active">商品資訊</li>
+                    </ol>
+                </div>
+                <div class="col-md-6">
+                    <ol class="product-pagination text-right">
+                        {#                        <li><a href="blog-left-sidebar.html"><i class="tf-ion-ios-arrow-left"></i> 下一項 </a></li>#}
+                        {#                        <li><a href="blog-left-sidebar.html">Preview <i class="tf-ion-ios-arrow-right"></i></a></li>#}
+                    </ol>
+                </div>
+            </div>
+            <div class="row mt-20">
+                <div class="col-md-5">
+                    <div class="single-product-slider">
+                        <div id='carousel-custom' class='carousel slide' data-ride='carousel'>
+                            <div class='carousel-outer'>
+                                <!-- me art lab slider -->
+                                <div class='carousel-inner '>
+                                    {% for photo in product_photos %}
+                                        <div class='item {% if forloop.first %}active{% endif %}'>
+                                            <img src="{{ photo.product_photo.url }}" alt=''
+                                                 data-zoom-image="{{ photo.product_photo }}"/>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <!-- sag sol -->
+                                <a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
+                                    <i class="tf-ion-ios-arrow-left"></i>
+                                </a>
+                                <a class='right carousel-control' href='#carousel-custom' data-slide='next'>
+                                    <i class="tf-ion-ios-arrow-right"></i>
+                                </a>
+                            </div>
+
+                            <!-- thumb -->
+                            <ol class='carousel-indicators mCustomScrollbar meartlab'>
+                                {% for photo in product_photos %}
+                                    <li data-target='#carousel-custom' data-slide-to='{{ forloop.counter0 }}'
+                                        {% if forloop.first %}class='active'{% endif %}>
+                                        <img src='{{ photo.product_photo.url }}' alt=''/>
+                                    </li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <form action="/addtocart/add/{{ product.id }}/" method="post" id="product-form">
+                    {% csrf_token %}
+                    <div class="col-md-7">
+                        <div class="single-product-details">
+                            <h2>{{ product_content.name }}</h2>
+                            <p class="product-price">${{ product_content.price }}</p>
+
+                            <p class="product-description mt-20">
+                                {{ product_content.small_description }}
+                            </p>
+
+                            <div class="product-quantity">
+                                <span>數量:</span>
+                                <div class="product-quantity-slider">
+                                    <input id="product-quantity" type="number" value="1" name="product-quantity">
+                                </div>
+                            </div>
+                            <div class="product-category">
+                                <span>類別:</span>
+                                <ul>
+                                    <li>
+                                        <a href="/shop-sidebar/{{ product_content.category.id }}">{{ product_content.category }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            {% if request.session.Alan == 'Alan' %}
+                                <button type="submit" class="btn btn-main mt-20">加入購物車</button>
+                            {% else %}
+                                <a href="/login" class="btn btn-main mt-20">請先登入</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="tabCommon mt-20">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#details"
+                                                      aria-expanded="true">場品資訊</a>
+                                </li>
+                                {#                            <li class=""><a data-toggle="tab" href="#reviews" aria-expanded="false">Reviews (3)</a></li>#}
+                            </ul>
+                            <div class="tab-content patternbg">
+                                <div id="details" class="tab-pane fade active in">
+                                    <h4>產品描述</h4>
+                                    <p>{{ product_content.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <section class="products related-products section">
+        <div class="container">
+            <div class="row">
+                <div class="title text-center">
+                    <h2>隨機新樣產品</h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for item in all_photo_random %}
+                    <div class="col-md-3">
+                        <div class="product-item">
+                            <div class="product-thumb">
+                                {% if item.is_onsale %}
+                                    <span class="bage">特價</span>
+                                {% endif %}
+                                <img class="img-responsive" src="{{ item.productphoto_set.first.product_photo.url }}"
+                                     alt="product-img"/>
+                                <div class="preview-meta">
+                                    <ul>
+                                        <li>
+                                        <span data-toggle="modal" data-target="#product-modal-{{ item.id }}">
+                                            <i class="tf-ion-ios-search"></i>
+                                        </span>
+                                        </li>
+                                        <li>
+                                            <a href="/addtocart/add/{{ item.id }}"><i
+                                                    class="tf-ion-android-cart"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <h4><a href="{% url 'shop_detail_view' item.id %}">{{ item.name }}</a></h4>
+                                <p class="price">${{ item.price }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal product-modal fade" id="product-modal-{{ item.id }}">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="tf-ion-close"></i>
+                        </button>
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="modal-image">
+                                                <img class="img-responsive"
+                                                     src="{{ item.productphoto_set.first.product_photo.url }}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="product-short-details">
+                                                <h2 class="product-title">{{ item.name }}</h2>
+                                                <p class="product-price">${{ item.price }}</p>
+                                                <p class="product-short-description">
+                                                    {{ item.small_description }}
+                                                </p>
+                                                <a href="/addtocart/add/{{ item.id }}"
+                                                   class="btn btn-main">加入購物車</a>
+                                                <a href="{% url 'shop_detail_view' item.id %}"
+                                                   class="btn btn-transparent">查看商品資訊</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

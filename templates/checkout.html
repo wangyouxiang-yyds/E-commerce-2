@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load cart_tag %}
+{% load static %}
+{% block js %}
+    <script>
+
+        function confirmLink(message) {
+            document.returnValue = confirm(message);
+
+        }
+
+    </script>
+{% endblock %}
+{% block mainarea %}
+
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content">
+                        <h1 class="page-name">訂購資訊</h1>
+                        <ol class="breadcrumb">
+                            <li><a href="/">首頁</a></li>
+                            <li class="active">訂購資訊</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="page-wrapper">
+        <div class="checkout shopping">
+            <div class="container">
+                <div class="row">
+                    <form class="checkout-form" action="/confirmation/" method="post">
+                        <div class="col-md-8">
+                            <div class="block billing-details">
+                                <h4 class="widget-title">訂單設定</h4>
+
+                                {% csrf_token %}
+
+                                <div class="form-group">
+                                    <label for="full_name">全名</label>
+                                    <input type="text" class="form-control" id="full_name" placeholder="" name="name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="user_address">住址</label>
+                                    <input type="text" class="form-control" id="user_address" placeholder=""
+                                           name="address">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user_phone">電話</label>
+                                    <input type="text" class="form-control" id="user_phone" placeholder="" name="phone">
+                                </div>
+                                <div class="checkout-country-code clearfix">
+                                    <div class="form-group">
+                                        <label for="user_post_code">區碼</label>
+                                        <input type="text" class="form-control" id="user_post_code" name="zipcode"
+                                               value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_city">城市</label>
+                                        <input type="text" class="form-control" id="user_city" name="city" value="">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="block">
+                                <h4 class="widget-title">付款方式</h4>
+                                <p>信用卡支付 (安全付款)</p>
+                                <div class="checkout-product-details">
+                                    <div class="payment">
+                                        <div class="card-details">
+
+
+                                            <div class="form-group">
+                                                <label for="card-number">卡片號碼 <span
+                                                        class="required">*</span></label>
+                                                <input id="card-number" class="form-control" type="tel"
+                                                       placeholder="•••• •••• •••• ••••">
+                                            </div>
+                                            <div class="form-group half-width padding-right">
+                                                <label for="card-expiry">到期日 (MM/YY) <span
+                                                        class="required">*</span></label>
+                                                <input id="card-expiry" class="form-control" type="tel"
+                                                       placeholder="MM / YY">
+                                            </div>
+                                            <div class="form-group half-width padding-left">
+                                                <label for="card-cvc">安全碼 <span class="required">*</span></label>
+                                                <input id="card-cvc" class="form-control" type="tel" maxlength="4"
+                                                       placeholder="CVC">
+                                            </div>
+                                            <input type="hidden" name="paytype" value="信用卡">
+                                            <button type="submit" class="btn btn-main mt-20">下訂單</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-md-4">
+                        <div class="product-checkout-details">
+                            <div class="block">
+                                <h4 class="widget-title">購物清單</h4>
+                                {% for unit in goodslist %}
+                                    <div class="media product-card">
+                                        <a class="pull-left" href="/product-single">
+                                            <img class="media-object" src="/media/{{ unit.4 }}" alt="Image"/>
+                                        </a>
+                                        <div class="media-body">
+                                            <h4 class="media-heading"><a
+                                                    href="/product-single/{{ unit.id }}">{{ unit.0 }}</a></h4>
+                                            <p class="price">{{ unit.2 }} x ${{ unit.1 }}</p>
+                                            <a class="product-remove" href='/addtocart/delete/{{ forloop.counter0 }}'
+                                               onclick="confirmLink('確定刪除此商品?'); return document.returnValue">刪除</a>
+                                            {#                                            <span class="remove">Remove</span>#}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                {% comment %}
+                                <div class="discount-code">
+                                    <p>有折價券嗎 ? <a data-toggle="modal" data-target="#coupon-modal" href="#!">點選這裡</a></p>
+                                </div>
+{% endcomment %}
+                                <ul class="summary-prices">
+                                    <li>
+                                        <span>小計:</span>
+                                        <span class="price">${{ total }}</span>
+                                    </li>
+                                    {% if total >= 1000 %}
+                                        <li>
+                                            <span>運費:</span>
+                                            <span>Free</span>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <span>運費:</span>
+                                            <span>$200</span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                                <div class="summary-total">
+                                    <span>總計</span>
+                                    <span>${{ grandtotal }}</span>
+                                </div>
+                                <div class="verified-icon">
+                                    <img src="{% static '/images/shop/verified.png' %}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% comment %}
+    <!-- Modal -->
+    <div class="modal fade" id="coupon-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Enter Coupon Code">
+                        </div>
+                        <button type="submit" class="btn btn-main">Apply Coupon</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endcomment %}
+{% endblock %}

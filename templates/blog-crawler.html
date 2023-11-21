@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainarea %}
+
+
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content">
+                        <h1 class="page-name">文章消息</h1>
+                        <ol class="breadcrumb">
+                            <li><a href="/index">首頁</a></li>
+                            <li class="active">文章消息</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+
+                    {% for link_list, img_list, title_list in all_info %}
+                        <div class="post">
+                            <div class="post-media post-thumb">
+                                <a href="{{ link_list }}">
+                                    <img src="{{ img_list }}" alt="">
+                                </a>
+                            </div>
+                            <h2 class="post-title"><a href="{{ link_list }}">{{ title_list }}</a>
+                            </h2>
+                            <div class="post-meta">
+                                <ul>
+                                    <li>
+                                        <i class="tf-ion-ios-calendar"></i>
+                                    </li>
+                                    <li>
+                                        <i class="tf-ion-android-person"></i> 文章作者
+                                    </li>
+                                    <li>
+                                        <a href="?category_id="><i class="tf-ion-ios-pricetags"></i> </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="post-content">
+                                <p></p>
+                                <a href="{{ link_list }}" class="btn btn-main">繼續閱讀</a>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                    <div class="text-center">
+                        <ul class="pagination post-pagination">
+                            {% if all_article.has_previous %}
+                                <li><a href="?page={{ all_article.previous_page_number }}">上一頁</a></li>
+                            {% endif %}
+                            {% for pages in all_article.paginator.page_range %}
+                                {% if all_article.number == pages %}
+                                    <li class="active"><span>{{ pages }}</span></li>
+                                {% elif all_article.number|add:'-1' == pages or all_article.number|add:'1' == all_article %}
+                                    <li><a href="?page={{ pages }}">{{ pages }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if all_article.has_next %}
+                                <li><a href="?page={{ all_article.next_page_number }}">下一頁</a></li>
+                            {% endif %}
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

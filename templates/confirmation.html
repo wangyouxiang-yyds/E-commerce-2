@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainarea %}
+    <!-- Page Wrapper -->
+    <section class="page-wrapper success-msg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="block text-center">
+                        <i class="tf-ion-android-checkmark-circle"></i>
+                        <h2 class="text-center">感謝您的購買!</h2>
+                        <p>一收到您的款項後我們將會以最快的速度處理訂單</p>
+                        {% if user_order.pay_type == '信用卡' %}
+                            <a href="/payment/{{ user_order.id }}/" class="btn btn-main mt-20">前往paypal確認明細後付款</a>
+                        {% else %}
+                            <a href="/order" class="btn btn-main mt-20">查看訂單明細</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'member_base.html' %}
+{% load static %}
+
+{% block js %}
+<script>
+    function checkPassword() {
+        var p1 = document.getElementsByName("password")[0].value;  // 抓取name為uPassword裡面的值
+        var p2 = document.getElementsByName("rePassword")[0].value; // 抓取name為rePassword裡面的值
+        if (p1 == p2) {
+            return true;
+        }
+        else {
+            alert('密碼輸入不一致，請重新輸入');
+
+            return false;
+        }
+    }
+</script>
+{% endblock %}
+
+
+{% block mainarea %}
+<section class="signin-page account">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="block text-center">
+                    <a class="logo" href="/index">
+                        <img src="{% static 'images/logo.png' %}" alt="">
+                    </a>
+                    <h1>{{ msg }}</h1>
+                    <h2 class="text-center">建立您的帳戶</h2>
+                    <form class="text-left clearfix" action="" method="post" onsubmit="return checkPassword()">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="名字" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Email為您的帳號" name='email' required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="密碼" name='password' required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="再次確認密碼" name='repassword' required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="生日" name='birthday' required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="地址" name='address' required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="行動電話" name='mobile' required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-main text-center">註冊</button>
+                        </div>
+                    </form>
+                    <p class="mt-20">已有帳號了 ?<a href="/login"> 登入</a></p>
+                    <p><a href="/forget-password"> 忘記密碼?</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

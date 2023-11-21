@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainarea %}
+
+
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content">
+                        <h1 class="page-name">Dashboard</h1>
+                        <ol class="breadcrumb">
+                            <li><a href="/index">首頁</a></li>
+                            <li class="active">我的帳戶</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="user-dashboard page-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="dashboard-wrapper user-dashboard">
+                    <h1>線上付款-訂單編號:{{ order.id }}</h1>
+                        <div class="table-responsive">
+                            {% for item in items %}
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>產品名稱</th>
+                                        <th>單價</th>
+                                        <th>數量</th>
+                                        <th>小計</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.price }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>{{ item.subtotal }}</td>
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            {% endfor %}
+                        {{ paypal_form.render }}
+                        </div>
+                    <h1>NT$:{{ total }}元</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
