@@ -390,13 +390,13 @@ def ECPayCredit(request):
         'TotalAmount': orderTotal,
         'TradeDesc': '訂單測試 Order Test',
         'ItemName': title,
-        'ReturnURL': 'https://www.lccnet.com.tw/lccnet',
+        'ReturnURL': 'https://www.youtube.com/',
         'ChoosePayment': 'Credit',
-        'ClientBackURL': 'https://www.lccnet.com.tw/lccnet/recruit-party',
+        'ClientBackURL': 'https://www.youtube.com/',
         'ItemURL': 'https://www.ecpay.com.tw/item_url.php',
         'Remark': '交易備註',
         'ChooseSubPayment': '',
-        'OrderResultURL': 'https://www.lccnet.com.tw/lccnet/teacher-list',
+        'OrderResultURL': 'https://www.youtube.com/',
         'NeedExtraPaidInfo': 'Y',
         'DeviceSource': '',
         'IgnorePayment': '',
@@ -467,6 +467,8 @@ def ECPayCredit(request):
         # action_url = 'https://payment.ecpay.com.tw/Cashier/AioCheckOut/V5' # 正式環境
         html = ecpay_payment_sdk.gen_html_post_form(action_url, final_order_params)
         html = format_html(html)
+
+
         return render(request, 'ecpaycredit.html', locals())
 
 
