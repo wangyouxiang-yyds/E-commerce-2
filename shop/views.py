@@ -468,6 +468,7 @@ def ECPayCredit(request):
         html = ecpay_payment_sdk.gen_html_post_form(action_url, final_order_params)
         html = format_html(html)
 
+        goodsTitle.clear()
 
         return render(request, 'ecpaycredit.html', locals())
 

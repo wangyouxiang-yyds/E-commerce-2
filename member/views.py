@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from .models import *
 from django.http import HttpResponseRedirect, HttpResponse
 import hashlib, random, string
-from cart.cart import Cart
+
 
 from django.contrib.auth.hashers import make_password
 

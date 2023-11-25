@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'member',
     'blog',
     'shop',
-    'cart',
     'order',
     'contact',
     'payment',
@@ -73,8 +72,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # 購物車
-                'cart.context_processor.cart_total_amount',
             ],
         },
     },
