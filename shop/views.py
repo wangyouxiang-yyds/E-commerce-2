@@ -312,13 +312,27 @@ def order_detail(request, orderid):
 
 # Create your views here.
 def shop_view(request, selected_category=0):
+    # 展現出所有類別
     product_category = Category.objects.all()
-
+    
+    # 被選到的類別
     if selected_category:
         product_item = Product.objects.filter(category__id=selected_category)
     else:
         product_item = Product.objects.all()
-
+    
+    
+    # form表單被選擇到的去get到
+    sort_option = request.GET.get('selectedOption')
+    
+    # 選到由貴到便宜
+    if sort_option == "expensive":
+        product_item = product_item.order_by('-price')
+    # 選到由便宜到貴    
+    elif sort_option == "cheap":
+        product_item = product_item.order_by('price')
+    
+        
     paginator = Paginator(product_item, 9)  # 9樣商品為一頁
     page = request.GET.get('page', 1)
 

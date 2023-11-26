@@ -32,6 +32,29 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
+                    <div class="widget">
+                        <h4 class="widget-title">排序條件</h4>
+                        <form id="myForm" method="get" action="" >
+                            {% csrf_token %}
+                            <select class="form-control" id="mySelect" name="selectedOption" onchange="submitForm2()">
+                                <option value="default" {% if sort_option == "default" %}selected{% endif %}>預設</option>
+                                <option value="expensive" {% if sort_option == "expensive" %}selected{% endif %}>價錢由高至低</option>
+                                <option value="cheap" {% if sort_option == "cheap" %}selected{% endif %}>價錢由低至高</option>
+                            </select>
+                        </form>
+                        <script>
+                            function submitForm2() {
+                                // 取得選擇的選項
+                                var selectedOption = document.getElementById("mySelect").value;
+                        
+                                // 在這裡可以進行額外的處理，例如將選擇的選項設定為表單的值
+                        
+                                // 提交表單
+                                document.getElementById("myForm").submit();
+                            }
+                            
+                        </script>
+                    </div>
                     <div class="widget product-category">
                         <h4 class="widget-title">商品分類</h4>
                         <div class="panel-group commonAccordion" id="accordion" role="tablist"
